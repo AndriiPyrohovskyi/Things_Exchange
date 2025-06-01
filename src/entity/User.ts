@@ -51,21 +51,21 @@ export class User {
     @Column({ type: "decimal", precision: 10, scale: 2, default: 0 })
     balance: number
 
-    @OneToMany(() => Listing, listing => listing.user)
+    @OneToMany(() => Listing, listing => listing.user, { nullable: true, cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     listings: Listing[]
     
-    @OneToMany(() => ModerationAction, moderationAction => moderationAction.moderator, { nullable: true })
+    @OneToMany(() => ModerationAction, moderationAction => moderationAction.moderator, { nullable: true, cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     moderationActions: ModerationAction[]
 
-    @OneToMany(() => ModerationAction, moderationAction => moderationAction.target_user, { nullable: true })
+    @OneToMany(() => ModerationAction, moderationAction => moderationAction.target_user, { nullable: true, cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     moderatedActions: ModerationAction[]
 
-    @OneToMany(() => ListingAction, ListingAction => ListingAction.actor, { nullable: true })
+    @OneToMany(() => ListingAction, ListingAction => ListingAction.actor, { nullable: true, cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     moderationListingActions: ListingAction[]
 
-    @OneToMany(() => Request, request => request.sender, { nullable: true })
+    @OneToMany(() => Request, request => request.sender, { nullable: true, cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     senderRequests: Request[]
 
-    @OneToMany(() => Request, request => request.receiver, { nullable: true })
+    @OneToMany(() => Request, request => request.receiver, { nullable: true, cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     receiverRequests: Request[]
 }

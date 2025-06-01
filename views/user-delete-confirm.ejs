@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Видалити користувача - Thing Exchange ORM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Thing Exchange ORM</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/">Головна</a>
+                <a class="nav-link" href="/joins">JOIN запити</a>
+                <a class="nav-link" href="/aggregates">Агрегатні запити</a>
+                <a class="nav-link" href="/groupby">GROUP BY + HAVING</a>
+                <a class="nav-link active" href="/users">Користувачі</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border-danger">
+                    <div class="card-header bg-danger text-white">
+                        <h4 class="mb-0">⚠️ Підтвердження видалення</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning">
+                            <strong>УВАГА!</strong> Ця дія незворотна. Всі дані користувача будуть втрачені.
+                        </div>
+                        
+                        <h5>Інформація про користувача:</h5>
+                        <ul class="list-unstyled">
+                            <li><strong>ID:</strong> <%= user.id %></li>
+                            <li><strong>Username:</strong> <%= user.username %></li>
+                            <li><strong>Ім'я:</strong> <%= user.firstName %> <%= user.secondName %></li>
+                            <li><strong>Email:</strong> <%= user.email %></li>
+                            <li><strong>Роль:</strong> <span class="badge bg-<%= user.role === 'admin' ? 'danger' : user.role === 'moderator' ? 'warning' : 'primary' %>"><%= user.role %></span></li>
+                            <li><strong>Оголошень:</strong> <%= user.listings ? user.listings.length : 0 %></li>
+                        </ul>
+                        
+                        <% if (user.listings && user.listings.length > 0) { %>
+                            <div class="alert alert-info">
+                                <strong>Примітка:</strong> У користувача є <%= user.listings.length %> оголошень, які також будуть видалені.
+                            </div>
+                        <% } %>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <div>
+                                <a href="/users/<%= user.id %>" class="btn btn-secondary">Скасувати</a>
+                                <a href="/users" class="btn btn-outline-secondary">До списку</a>
+                            </div>
+                            <form action="/users/<%= user.id %>/delete" method="POST" style="display: inline;">
+                                <button type="submit" class="btn btn-danger">
+                                    🗑️ Так, видалити користувача
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

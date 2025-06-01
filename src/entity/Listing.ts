@@ -41,18 +41,18 @@ export class Listing {
     @Column({type: 'enum', enum: ListingStatus, default: ListingStatus.OPENED})
     status: ListingStatus
 
-    @OneToMany(() => ListingAction, listingAction => listingAction.listing, { nullable: true })
+    @OneToMany(() => ListingAction, listingAction => listingAction.listing, { nullable: true, cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     moderationActions: ListingAction[]
 
-    @OneToMany(() => Request, request => request.senderListing, { nullable: true })
+    @OneToMany(() => Request, request => request.senderListing, { nullable: true, cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     senderRequests: Request[]
 
-    @OneToMany(() => Request, request => request.receiverListing, { nullable: true })
+    @OneToMany(() => Request, request => request.receiverListing, { nullable: true, cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     receiverRequests: Request[]
 
-    @OneToMany(() => ListingPhoto, listingPhoto => listingPhoto.listing, { nullable: true })
+    @OneToMany(() => ListingPhoto, listingPhoto => listingPhoto.listing, { nullable: true, cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     photos: ListingPhoto[]
 
-    @OneToMany(() => ListingTag, listingTag => listingTag.listing, { nullable: true })
+    @OneToMany(() => ListingTag, listingTag => listingTag.listing, { nullable: true, cascade: true, onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     tags: ListingTag[]
 }

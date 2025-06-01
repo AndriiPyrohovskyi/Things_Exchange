@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Створити користувача - Thing Exchange ORM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">Thing Exchange ORM</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/">Головна</a>
+                <a class="nav-link" href="/joins">JOIN запити</a>
+                <a class="nav-link" href="/aggregates">Агрегатні запити</a>
+                <a class="nav-link" href="/groupby">GROUP BY + HAVING</a>
+                <a class="nav-link active" href="/users">Користувачі</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Створити нового користувача</h4>
+                    </div>
+                    <div class="card-body">
+                        <% if (typeof error !== 'undefined' && error) { %>
+                            <div class="alert alert-danger">
+                                <strong>Помилка:</strong> <%= error %>
+                            </div>
+                        <% } %>
+                        
+                        <form action="/users/create" method="POST">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="username" class="form-label">Username *</label>
+                                        <input type="text" class="form-control" id="username" name="username" 
+                                               value="<%= (typeof formData !== 'undefined' && formData.username) ? formData.username : '' %>" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="firstName" class="form-label">Ім'я *</label>
+                                        <input type="text" class="form-control" id="firstName" name="firstName" 
+                                               value="<%= typeof formData !== 'undefined' ? formData.firstName : '' %>" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="secondName" class="form-label">Прізвище *</label>
+                                        <input type="text" class="form-control" id="secondName" name="secondName" 
+                                               value="<%= typeof formData !== 'undefined' ? formData.secondName : '' %>" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Пароль *</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email *</label>
+                                        <input type="email" class="form-control" id="email" name="email" 
+                                               value="<%= typeof formData !== 'undefined' ? formData.email : '' %>" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">Роль *</label>
+                                        <select class="form-select" id="role" name="role" required>
+                                            <option value="user" <%= typeof formData !== 'undefined' && formData.role === 'user' ? 'selected' : '' %>>Користувач</option>
+                                            <option value="moderator" <%= typeof formData !== 'undefined' && formData.role === 'moderator' ? 'selected' : '' %>>Модератор</option>
+                                            <option value="admin" <%= typeof formData !== 'undefined' && formData.role === 'admin' ? 'selected' : '' %>>Адміністратор</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="balance" class="form-label">Початковий баланс (₴)</label>
+                                        <input type="number" step="0.01" class="form-control" id="balance" name="balance" 
+                                               value="<%= typeof formData !== 'undefined' ? formData.balance : '0' %>">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between">
+                                <a href="/users" class="btn btn-secondary">Скасувати</a>
+                                <button type="submit" class="btn btn-primary">Створити користувача</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- У views/user-create.ejs додайте JavaScript валідацію -->
+    <script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const balance = document.getElementById('balance').value;
+        if (balance && isNaN(parseFloat(balance))) {
+            e.preventDefault();
+            alert('Будь ласка, введіть правильне числове значення для балансу');
+        }
+    });
+    </script>
+</body>
+</html>
